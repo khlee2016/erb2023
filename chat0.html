@@ -47,10 +47,31 @@ input[type=button] { height: 2em; }
  
     // 메세지 태그 생성
     function createMessageTag(LR_className, hostName, message) {
+        // 형식 가져오기
+        let chatLi = document.querySelector('div.chat.format ul li').cloneNode(true);
+ 
+        // 값 채우기
+        chatLi.classList.add(LR_className);
+        let now = new Date()
+        var hours = ('0' + now.getHours()).slice(-2); 
+        var minutes = ('0' + now.getMinutes()).slice(-2);
+        var timeString = hours + ':' + minutes;
+        if ( LR_className == "left" )
+            chatLi.querySelector('.tsender').innerHTML = timeString;
+        else
+            chatLi.querySelector('.tmessage').innerHTML = timeString;
+        chatLi.querySelector('.sender').innerHTML = hostName;
+        chatLi.querySelector('.message').innerHTML = message;
+ 
+        return chatLi;
     }
  
     // 메세지 태그 append
     function appendMessageTag(LR_className, hostName, message) {
+        const chatLi = createMessageTag(LR_className, hostName, message);
+        document.querySelector('div.chat:not(.format) ul').append(chatLi);
+        // 스크롤
+        chatLi.scrollIntoView({behavior: "smooth"})
     }
  
     // 메세지 전송
